@@ -107,15 +107,32 @@ def identificar_area_mais_afetada(pontuacoes_acumuladas):
     return areas_monitoradas[indice_maior]
 
 def gerar_conclusao(classificacao_final, ciclos_criticos, risco_ultimo_ciclo, risco_primeiro_ciclo):
-    tendencia = "piora" if risco_ultimo_ciclo > risco_primeiro_ciclo else ("melhora" if risco_ultimo_ciclo < risco_primeiro_ciclo else "estabilidade")
-    if classificacao_final == "MISSAO CRITICA":
-        return (f"A missao apresentou situacao critica ao longo da operacao com {ciclos_criticos} ciclo(s) critico(s). "
-                f"A tendencia de {tendencia} exige ativacao imediata dos protocolos de emergencia.")
-    elif classificacao_final == "MISSAO EM ATENCAO":
-        return (f"A missao apresentou instabilidade relevante durante a operacao com {ciclos_criticos} ciclo(s) critico(s). "
-                f"Apesar da tendencia de {tendencia}, a equipe deve manter o plano de contingencia ativo.")
+
+    # Parte 1: determinar a tendencia da missao
+    if risco_ultimo_ciclo > risco_primeiro_ciclo:
+        tendencia = "piora"
+    elif risco_ultimo_ciclo < risco_primeiro_ciclo:
+        tendencia = "melhora"
     else:
-        return "A missao transcorreu dentro dos parametros esperados. Continuar monitoramento de rotina."
+        tendencia = "estabilidade"
+
+    # Parte 2: montar a conclusao com base na classificacao final
+    if classificacao_final == "MISSAO CRITICA":
+        conclusao = (
+            f"A missao apresentou situacao critica ao longo da operacao "
+            f"com {ciclos_criticos} ciclo(s) critico(s). "
+            f"A tendencia de {tendencia} exige ativacao imediata dos protocolos de emergencia."
+        )
+    elif classificacao_final == "MISSAO EM ATENCAO":
+        conclusao = (
+            f"A missao apresentou instabilidade relevante durante a operacao "
+            f"com {ciclos_criticos} ciclo(s) critico(s). "
+            f"Apesar da tendencia de {tendencia}, a equipe deve manter o plano de contingencia ativo."
+        )
+    else:
+        conclusao = "A missao transcorreu dentro dos parametros esperados. Continuar monitoramento de rotina."
+
+    return conclusao
 
 def preview():
     print("============================================================")
