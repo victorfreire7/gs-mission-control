@@ -159,8 +159,8 @@ def preview():
     print("============================================================")
     print("RELATORIO FINAL DA MISSAO")
     print("============================================================")
-    print("Missao: Orion Test Alpha")
-    print("Equipe: Equipe Apollo")
+    print(f"Missao: {nome_missao}")   # APOLO 0
+    print(f"Equipe: {nome_equipe}")   # PROMETHEUS
     print()
     print(f"Quantidade de ciclos analisados: {len(dados_missao)}")
     print()
