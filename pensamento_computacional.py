@@ -84,6 +84,11 @@ def gerar_recomendacao(classificacao, estados):
         if estados[4] == "CRITICO": return "Reduzir operacoes nao essenciais."
         return "Ativar modo de seguranca e priorizar suporte a vida."
     elif classificacao == "MISSAO EM ATENCAO":
+        if estados[0] == "ATENCAO": return "Monitorar temperatura e verificar controle termico."
+        if estados[1] == "ATENCAO": return "Monitorar sinal de comunicacao e verificar antenas."
+        if estados[2] == "ATENCAO": return "Reduzir consumo de energia e monitorar bateria."
+        if estados[3] == "ATENCAO": return "Monitorar nivel de oxigenio e preparar reservas."
+        if estados[4] == "ATENCAO": return "Monitorar estabilidade e reduzir operacoes secundarias."
         return "Monitorar sistemas em atencao e preparar plano de contingencia."
     else:
         return "Manter operacao normal e continuar monitoramento."
@@ -100,6 +105,17 @@ def identificar_area_mais_afetada(pontuacoes_acumuladas):
     maior_pontuacao = max(pontuacoes_acumuladas)
     indice_maior = pontuacoes_acumuladas.index(maior_pontuacao)
     return areas_monitoradas[indice_maior]
+
+def gerar_conclusao(classificacao_final, ciclos_criticos, risco_ultimo_ciclo, risco_primeiro_ciclo):
+    tendencia = "piora" if risco_ultimo_ciclo > risco_primeiro_ciclo else ("melhora" if risco_ultimo_ciclo < risco_primeiro_ciclo else "estabilidade")
+    if classificacao_final == "MISSAO CRITICA":
+        return (f"A missao apresentou situacao critica ao longo da operacao com {ciclos_criticos} ciclo(s) critico(s). "
+                f"A tendencia de {tendencia} exige ativacao imediata dos protocolos de emergencia.")
+    elif classificacao_final == "MISSAO EM ATENCAO":
+        return (f"A missao apresentou instabilidade relevante durante a operacao com {ciclos_criticos} ciclo(s) critico(s). "
+                f"Apesar da tendencia de {tendencia}, a equipe deve manter o plano de contingencia ativo.")
+    else:
+        return "A missao transcorreu dentro dos parametros esperados. Continuar monitoramento de rotina."
 
 def preview():
     print("============================================================")
@@ -139,7 +155,7 @@ def preview():
             ciclos_criticos += 1
 
         soma_riscos += pontuacao_total
-        for j in range(5):
+        for j in range(len(areas_monitoradas)): 
             pontuacoes_acumuladas[j] += pontos[j]
             soma_medias[j] += dados[j]
 
@@ -156,11 +172,13 @@ def preview():
         print(f"Recomendacao: {recomendacao}")
         print()
 
+    classificacao_final = classificar_ciclo(soma_riscos / len(dados_missao))
+
     print("============================================================")
     print("RELATORIO FINAL DA MISSAO")
     print("============================================================")
-    print(f"Missao: {nome_missao}")   # APOLO 0
-    print(f"Equipe: {nome_equipe}")   # PROMETHEUS
+    print(f"Missao: {nome_missao}")
+    print(f"Equipe: {nome_equipe}")
     print()
     print(f"Quantidade de ciclos analisados: {len(dados_missao)}")
     print()
@@ -179,14 +197,17 @@ def preview():
     print(analisar_tendencia(risco_primeiro_ciclo, risco_ultimo_ciclo))
     print()
     print("Pontuacao acumulada por area:")
-    for k in range(5):
+    for k in range(len(areas_monitoradas)): 
         print(f"{areas_monitoradas[k]}: {pontuacoes_acumuladas[k]} pontos")
     print()
     print("Area mais afetada:")
     print(identificar_area_mais_afetada(pontuacoes_acumuladas))
     print()
     print("Classificacao final da missao:")
-    print(classificar_ciclo(soma_riscos / len(dados_missao)))
+    print(classificacao_final)
+    print()
+    print("Conclusao:")
+    print(gerar_conclusao(classificacao_final, ciclos_criticos, risco_ultimo_ciclo, risco_primeiro_ciclo))
     print("============================================================")
 
 preview()
