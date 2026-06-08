@@ -1,5 +1,5 @@
 nome_missao = "APOLO 0"
-nome_equipe = "PROMETHEUS"
+nome_equipe = "IARA"
 
 dados_missao = [
     [24, 92, 88, 96, 90],

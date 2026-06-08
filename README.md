@@ -6,8 +6,13 @@ Sistema inteligente de monitoramento de missão espacial experimental, desenvolv
 
 ## Equipe
 
-**PROMETHEUS**
+### **IARA**
 
+| Nome | RM | Github |
+| :--- | :---: | ---: |
+| Victor Hugo Ferreira Freire | 571099 | [victorfreire7](https://github.com/victorfreire7) |
+| Julian Nayde Moncoski | 572603 | [n-whre](https://github.com/n-whre) |
+| Timothée Campos Ferraz | 568688 | [thempos](https://github.com/thempos) |
 ---
 
 ## Descrição
@@ -123,7 +128,7 @@ O sistema compara a pontuação de risco do **primeiro ciclo** com a do **últim
 MISSION CONTROL AI
 ============================================================
 Missao: APOLO 0
-Equipe: PROMETHEUS
+Equipe: IARA
 Quantidade de ciclos analisados: 6
 ============================================================
 
